@@ -1,24 +1,24 @@
-import React, { useState, useEffect } from "react";
-import "./App.css";
-import Header from "./components/Header";
-import Figure from "./components/Figure";
-import WrongLetters from "./components/WrongLetters";
-import Word from "./components/Word";
-import { showNotification as show } from "./helpers/helper";
-import Popup from "./components/Popup";
-import Notification from "./components/Notification";
+import { useEffect, useState } from "react";
+import { showNotification as show } from "../utils/helpers/index";
+import Header from "./Header";
+import Figure from "./Figure";
+import WrongLetters from "./WrongLetters";
+import Word from "./Word";
+import Popup from "./Popup";
+import Notification from "./Notification";
 
-const words = ["application", "programming", "interface", "wizard"];
-let selectedWord = words[Math.floor(Math.random() * words.length)];
+const words: string[] = ["application", "programming", "interface", "wizard"];
 
-export function App() {
-  const [playable, setPlayable] = useState(true);
-  const [correctLetters, setCorrectLetters] = useState([]);
-  const [wrongLetters, setWrongLetters] = useState([]);
-  const [showNotification, setShowNotification] = useState(false);
+let selectedWord: string = words[Math.floor(Math.random() * words.length)];
+
+const WordApp = () => {
+  const [playable, setPlayable] = useState<boolean>(true);
+  const [correctLetters, setCorrectLetters] = useState<string[]>([]);
+  const [wrongLetters, setWrongLetters] = useState<string[]>([]);
+  const [showNotification, setShowNotification] = useState<boolean>(false);
 
   useEffect(() => {
-    const handleKeydown = (event) => {
+    const handleKeydown = (event: { key: string; keyCode: number }) => {
       const { key, keyCode } = event;
 
       if (playable && keyCode >= 65 && keyCode <= 90) {
@@ -39,7 +39,9 @@ export function App() {
         }
       }
     };
+
     window.addEventListener("keydown", handleKeydown);
+
     return () => window.removeEventListener("keydown", handleKeydown);
   }, [correctLetters, wrongLetters, playable]);
 
@@ -47,18 +49,20 @@ export function App() {
     setPlayable(true);
     setCorrectLetters([]);
     setWrongLetters([]);
-    const random = Math.floor(Math.random() * words.length);
+    const random: number = Math.floor(Math.random() * words.length);
     selectedWord = words[random];
   };
 
   return (
     <>
       <Header />
+
       <div className="game-container">
         <Figure wrongLetters={wrongLetters} />
         <WrongLetters wrongLetters={wrongLetters} />
         <Word selectedWord={selectedWord} correctLetters={correctLetters} />
       </div>
+
       <Popup
         correctLetters={correctLetters}
         wrongLetters={wrongLetters}
@@ -66,7 +70,10 @@ export function App() {
         setPlayable={setPlayable}
         playAgain={playAgain}
       />
+
       <Notification showNotification={showNotification} />
     </>
   );
-}
+};
+
+export default WordApp;

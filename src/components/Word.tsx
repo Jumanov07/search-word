@@ -1,6 +1,9 @@
-import React from "react";
+interface Props {
+  selectedWord: string;
+  correctLetters: string[];
+}
 
-const Word = ({ selectedWord, correctLetters }) => {
+const Word = ({ selectedWord, correctLetters }: Props) => {
   return (
     <div className="word" id="word">
       {selectedWord.split("").map((letter, i) => {

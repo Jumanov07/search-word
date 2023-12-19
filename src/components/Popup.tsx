@@ -1,10 +1,24 @@
-import React, { useEffect } from "react";
-import { checkWin } from "../helpers/helper";
+import { useEffect } from "react";
+import { checkWin } from "../utils/helpers";
 
-const Popup = ({ correctLetters, wrongLetters, selectedWord, setPlayable , playAgain }) => {
-  let finalMessage = "";
-  let finalMessageRevealWord = "";
-  let playable = true;
+interface Props {
+  correctLetters: string[];
+  wrongLetters: string[];
+  selectedWord: string;
+  setPlayable: (value: boolean) => void;
+  playAgain: () => void;
+}
+
+const Popup = ({
+  correctLetters,
+  wrongLetters,
+  selectedWord,
+  setPlayable,
+  playAgain,
+}: Props) => {
+  let finalMessage: string = "";
+  let finalMessageRevealWord: string = "";
+  let playable: boolean = true;
 
   if (checkWin(correctLetters, wrongLetters, selectedWord) === "win") {
     finalMessage = "Congratulations! You won! 😎🤟🎉";
@@ -15,7 +29,9 @@ const Popup = ({ correctLetters, wrongLetters, selectedWord, setPlayable , playA
     playable = false;
   }
 
-  useEffect(() => setPlayable(playable));
+  useEffect(() => {
+    setPlayable(playable);
+  });
 
   return (
     <div

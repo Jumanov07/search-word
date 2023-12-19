@@ -1,6 +1,8 @@
-import React from "react";
+interface Props {
+  showNotification: boolean;
+}
 
-const Notification = ({ showNotification }) => {
+const Notification = ({ showNotification }: Props) => {
   return (
     <div className={`notification-container ${showNotification ? "show" : ""}`}>
       <p>You have already entered this letter</p>
